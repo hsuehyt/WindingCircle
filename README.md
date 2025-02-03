@@ -5,15 +5,15 @@ A Python script for generating customizable, organic, randomly winding closed ci
 ## Features
 
 - **Customizable Parameters**:
-  - Radius
+  - Radius (range: `1` to `5000`, default: `1000`)
   - Winding frequency
-  - Irregularity (random distortion in radius)
+  - Irregularity (scaled from `0` to `100`, affects randomness in radius)
   - Vertical irregularity (up-and-down distortion)
   - Number of points for smoothness control
   - Random seed for reproducibility
-- **User-Friendly Interface**: A simple Maya UI with sliders to adjust parameters dynamically.
-- **Live Update Mode**: Enables real-time modifications as parameters are changed.
-- **Organic Design**: Generates natural-looking, winding closed curves with randomness.
+- **User-Friendly Interface**: A simple Maya UI with sliders and text fields to adjust parameters dynamically.
+- **Live Update Mode**: Enables real-time modifications when adjusting parameters via sliders or typing values manually.
+- **Input Validation**: Ensures that typed values conform to allowed ranges, automatically correcting invalid inputs.
 - **Delete Previous Curve Option**: Allows users to decide whether to remove the previous curve before generating a new one.
 - **Reset Button**: Quickly restores all parameters to default values.
 
@@ -30,8 +30,8 @@ A Python script for generating customizable, organic, randomly winding closed ci
 ## Usage
 
 1. Run the script in Maya's Script Editor.
-2. A UI window will appear with adjustable sliders for:
-   - **Radius**: The overall size of the circle (default: `100`, max: `1000`).
+2. A UI window will appear with adjustable sliders and input fields for:
+   - **Radius**: The overall size of the circle (default: `1000`, max: `5000`).
    - **Winding**: The number of loops or twists in the circle.
    - **Irregularity**: Random distortion in the radius for an organic look.
    - **Vertical Irregularity**: Up-and-down randomness along the Y-axis.
@@ -39,14 +39,14 @@ A Python script for generating customizable, organic, randomly winding closed ci
    - **Seed**: Ensures repeatable randomness.
    - **Delete Previous Curve**: Whether to remove the previous curve before generating a new one.
    - **Live Update**: Enables dynamic updates when modifying parameters.
-3. Adjust the sliders and click **Create** to generate the winding circle.
+3. Adjust the sliders or type values into input fields, and click **Create** to generate the winding circle.
 4. Click **Reset** to restore default settings.
 
 ## Parameters Explained
 
-- **Radius**: Controls the size of the circle.
+- **Radius**: Controls the size of the circle (range: `1` to `5000`).
 - **Winding**: The number of full loops around the circle.
-- **Irregularity**: Adds randomness to the circle's radius for an organic shape.
+- **Irregularity**: Adds randomness to the circle's radius for an organic shape (range: `0` to `100`).
 - **Vertical Irregularity**: Adds randomness to the vertical movement for undulations.
 - **Number of Points**: Controls the curve smoothness by increasing or decreasing the resolution.
 - **Seed**: A random seed for predictable, repeatable results.
@@ -56,11 +56,11 @@ A Python script for generating customizable, organic, randomly winding closed ci
 ## Example
 
 ```python
-create_winding_circle(radius=100, winding=7, irregularity=0.5, vertical_irregularity=0.4, num_points=200, seed=123, delete_previous=True)
+create_winding_circle(radius=1000, winding=7, irregularity=50, vertical_irregularity=0.4, num_points=200, seed=123, delete_previous=True)
 ```
 
 This generates a winding circle with:
-- Radius = `100`
+- Radius = `1000`
 - 7 twists around the circle
 - 200 points for smoothness
 - Random distortions in radius and height for a natural look.
@@ -76,4 +76,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contributing
 
 Contributions are welcome! Feel free to fork the repository and submit pull requests.
-
