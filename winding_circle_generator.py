@@ -2,7 +2,7 @@ import maya.cmds as cmds
 import random
 import math
 
-def create_winding_circle(radius=1000, winding=5, irregularity=0.3, vertical_irregularity=0.2, num_points=100, seed=42, delete_previous=True):
+def create_winding_circle(radius=1000, winding=5, irregularity=0.3, vertical_irregularity=0.2, num_points=100, seed=42, delete_previous=True, flatten_ends=False):
     """
     Create or update a randomly winding closed circle in Maya.
     """
@@ -20,10 +20,14 @@ def create_winding_circle(radius=1000, winding=5, irregularity=0.3, vertical_irr
         x = distorted_radius * math.cos(angle)
         z = distorted_radius * math.sin(angle)
         y = random.uniform(-1, 1) * vertical_irregularity * radius
+        
+        if flatten_ends and (i == 0 or i == num_points - 1):
+            y = 0  # Flatten the start and end points to y=0
+        
         points.append((x, y, z))
 
     # Close the curve by appending the first point
-    points.append(points[0])
+    points.append((points[0][0], 0 if flatten_ends else points[0][1], points[0][2]))
 
     # Check if a previous curve exists and delete it if needed
     existing_curve = cmds.ls("winding_circle")
@@ -45,7 +49,7 @@ def show_ui():
     if cmds.window("WindingCircleUI", exists=True):
         cmds.deleteUI("WindingCircleUI")
 
-    window = cmds.window("WindingCircleUI", title="Winding Circle Generator", widthHeight=(300, 350))
+    window = cmds.window("WindingCircleUI", title="Winding Circle Generator", widthHeight=(300, 400))
     cmds.columnLayout(adjustableColumn=True)
 
     # UI Controls
@@ -69,6 +73,7 @@ def show_ui():
     
     delete_prev_check = cmds.checkBox(label="Delete Previous Curve", value=True)
     live_update_check = cmds.checkBox(label="Live Update", value=False)
+    flatten_ends_check = cmds.checkBox(label="Flatten Curve Ends to y=0", value=False, changeCommand=lambda _: update_curve())
 
     def update_curve(*args):
         radius = clamp_value(cmds.floatSliderGrp(radius_slider, query=True, value=True), 1.0, 5000.0)
@@ -78,7 +83,8 @@ def show_ui():
         num_points = clamp_value(cmds.intSliderGrp(num_points_slider, query=True, value=True), 10, 500, True)
         seed = clamp_value(cmds.intSliderGrp(seed_slider, query=True, value=True), 1, 1000, True)
         delete_previous = cmds.checkBox(delete_prev_check, query=True, value=True)
-        create_winding_circle(radius, winding, irregularity, vertical_irregularity, num_points, seed, delete_previous)
+        flatten_ends = cmds.checkBox(flatten_ends_check, query=True, value=True)
+        create_winding_circle(radius, winding, irregularity, vertical_irregularity, num_points, seed, delete_previous, flatten_ends)
     
     cmds.button(label="Create", command=update_curve)
     cmds.showWindow(window)
