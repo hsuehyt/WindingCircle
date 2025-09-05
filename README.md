@@ -2,6 +2,8 @@
 
 A Python script for generating customizable, organic, randomly winding closed circles in Autodesk Maya. Perfect for creating natural-looking paths, rollercoaster-like trails, or artistic curves.
 
+![Preview of winding circle UI](WindingCircleGeneratorUI.png)
+
 ## Features
 
 - **Customizable Parameters**:
