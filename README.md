@@ -71,7 +71,7 @@ This generates a winding circle with:
 
 ## Preview
 
-![Preview of winding circle in Maya](path-to-preview-image.png)
+![Preview of winding circle in Maya](WindingCircleGeneratorScene.png)
 
 ## License
 
